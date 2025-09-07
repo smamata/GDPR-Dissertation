@@ -69,7 +69,7 @@ class ConnectWalletScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 48),
 
-                  // Error display
+                  // Global error display
                   if (walletProvider.error != null)
                     Container(
                       width: double.infinity,
@@ -105,7 +105,9 @@ class ConnectWalletScreen extends StatelessWidget {
                     'Connect using MetaMask browser extension',
                     Icons.account_balance_wallet,
                     () => _connectWallet(context, 'MetaMask'),
-                    walletProvider.isConnecting,
+                    walletProvider.isWalletConnecting('MetaMask'),
+                    walletProvider.getWalletError('MetaMask'),
+                    () => walletProvider.clearWalletError('MetaMask'),
                   ),
                   const SizedBox(height: 16),
 
@@ -115,7 +117,9 @@ class ConnectWalletScreen extends StatelessWidget {
                     'Connect using WalletConnect protocol',
                     Icons.wifi,
                     () => _connectWallet(context, 'WalletConnect'),
-                    walletProvider.isConnecting,
+                    walletProvider.isWalletConnecting('WalletConnect'),
+                    walletProvider.getWalletError('WalletConnect'),
+                    () => walletProvider.clearWalletError('WalletConnect'),
                   ),
                   const SizedBox(height: 16),
 
@@ -125,7 +129,9 @@ class ConnectWalletScreen extends StatelessWidget {
                     'Connect using Coinbase Wallet',
                     Icons.account_balance,
                     () => _connectWallet(context, 'Coinbase'),
-                    walletProvider.isConnecting,
+                    walletProvider.isWalletConnecting('Coinbase'),
+                    walletProvider.getWalletError('Coinbase'),
+                    () => walletProvider.clearWalletError('Coinbase'),
                   ),
 
                   const Spacer(),
@@ -149,97 +155,159 @@ class ConnectWalletScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildWalletOption(BuildContext context, String title, String subtitle,
-      IconData icon, VoidCallback onTap, bool isConnecting) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: const Color(0xFF16213E),
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: Colors.white.withOpacity(0.1),
-          width: 1,
-        ),
-      ),
-      child: InkWell(
-        onTap: isConnecting ? null : onTap,
-        borderRadius: BorderRadius.circular(16),
-        child: Row(
-          children: [
-            Container(
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: const Color(0xFF4CAF50).withOpacity(0.1),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Icon(icon, color: const Color(0xFF4CAF50), size: 24),
+  Widget _buildWalletOption(
+      BuildContext context,
+      String title,
+      String subtitle,
+      IconData icon,
+      VoidCallback onTap,
+      bool isConnecting,
+      String? error,
+      VoidCallback? onClearError) {
+    return Column(
+      children: [
+        Container(
+          width: double.infinity,
+          padding: const EdgeInsets.all(20),
+          decoration: BoxDecoration(
+            color: const Color(0xFF16213E),
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(
+              color: error != null
+                  ? Colors.red.withOpacity(0.3)
+                  : Colors.white.withOpacity(0.1),
+              width: 1,
             ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                    ),
+          ),
+          child: InkWell(
+            onTap: isConnecting ? null : onTap,
+            borderRadius: BorderRadius.circular(16),
+            child: Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: error != null
+                        ? Colors.red.withOpacity(0.1)
+                        : const Color(0xFF4CAF50).withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(12),
                   ),
-                  const SizedBox(height: 4),
-                  Text(
-                    subtitle,
-                    style: const TextStyle(
-                      color: Color(0xFFB0B0B0),
-                      fontSize: 14,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            if (isConnecting)
-              const SizedBox(
-                width: 20,
-                height: 20,
-                child: CircularProgressIndicator(
-                  strokeWidth: 2,
-                  valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF4CAF50)),
+                  child: Icon(icon,
+                      color:
+                          error != null ? Colors.red : const Color(0xFF4CAF50),
+                      size: 24),
                 ),
-              )
-            else
-              const Icon(
-                Icons.arrow_forward_ios,
-                color: Color(0xFFB0B0B0),
-                size: 16,
-              ),
-          ],
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        title,
+                        style: TextStyle(
+                          color: error != null ? Colors.red : Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        subtitle,
+                        style: const TextStyle(
+                          color: Color(0xFFB0B0B0),
+                          fontSize: 14,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                if (isConnecting)
+                  const SizedBox(
+                    width: 20,
+                    height: 20,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      valueColor:
+                          AlwaysStoppedAnimation<Color>(Color(0xFF4CAF50)),
+                    ),
+                  )
+                else if (error != null)
+                  IconButton(
+                    onPressed: onClearError,
+                    icon: const Icon(Icons.close, color: Colors.red, size: 20),
+                  )
+                else
+                  const Icon(
+                    Icons.arrow_forward_ios,
+                    color: Color(0xFFB0B0B0),
+                    size: 16,
+                  ),
+              ],
+            ),
+          ),
         ),
-      ),
+        // Individual wallet error display
+        if (error != null)
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(12),
+            margin: const EdgeInsets.only(top: 8),
+            decoration: BoxDecoration(
+              color: Colors.red.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(color: Colors.red.withOpacity(0.3)),
+            ),
+            child: Row(
+              children: [
+                const Icon(Icons.error_outline, color: Colors.red, size: 16),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Text(
+                    error,
+                    style: const TextStyle(color: Colors.red, fontSize: 12),
+                  ),
+                ),
+                IconButton(
+                  onPressed: onClearError,
+                  icon: const Icon(Icons.close, color: Colors.red, size: 16),
+                  padding: EdgeInsets.zero,
+                  constraints:
+                      const BoxConstraints(minWidth: 24, minHeight: 24),
+                ),
+              ],
+            ),
+          ),
+      ],
     );
   }
 
   Future<void> _connectWallet(BuildContext context, String walletType) async {
     final walletProvider = Provider.of<WalletProvider>(context, listen: false);
 
-    await walletProvider.connectWallet(walletType);
+    try {
+      await walletProvider.connectWallet(walletType);
 
-    if (walletProvider.isConnected) {
-      // Show success toast
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Wallet connected on ${walletProvider.network}'),
-          backgroundColor: const Color(0xFF4CAF50),
-          behavior: SnackBarBehavior.floating,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
+      if (walletProvider.isConnected &&
+          walletProvider.connectedWalletType == walletType) {
+        // Show success toast
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('$walletType connected on ${walletProvider.network}'),
+            backgroundColor: const Color(0xFF4CAF50),
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
           ),
-        ),
-      );
+        );
 
-      // Navigate to home
-      context.go('/home');
+        // Navigate to home
+        context.go('/home');
+      }
+    } catch (e) {
+      // Error handling is already done in the provider
+      // The UI will automatically show the error state
+      print('Connection error for $walletType: $e');
     }
   }
 }
