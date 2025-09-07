@@ -19,8 +19,21 @@ class WalletProvider extends ChangeNotifier {
   String? getWalletError(String walletType) => _state.walletErrors[walletType];
 
   Future<void> connectWallet(String walletType) async {
+    // Prevent multiple simultaneous connections
+    if (_state.isConnecting) {
+      print(
+          'Connection already in progress for ${_state.connectingWalletType}');
+      return;
+    }
+
+    // Check if this specific wallet is already connecting
+    if (_state.walletConnectingStates[walletType] == true) {
+      print('$walletType is already connecting');
+      return;
+    }
+
     try {
-      // Clear any previous errors for this wallet
+      // Clear any previous errors for this wallet and global errors
       final updatedWalletErrors =
           Map<String, String?>.from(_state.walletErrors);
       updatedWalletErrors[walletType] = null;
@@ -33,10 +46,12 @@ class WalletProvider extends ChangeNotifier {
       _updateState(_state.copyWith(
         isConnecting: true,
         connectingWalletType: walletType,
-        error: null,
+        error: null, // Clear global error
         walletConnectingStates: updatedConnectingStates,
         walletErrors: updatedWalletErrors,
       ));
+
+      print('Starting connection for $walletType');
 
       // Simulate different connection times for different wallets
       int connectionDelay;
@@ -56,11 +71,16 @@ class WalletProvider extends ChangeNotifier {
 
       await Future.delayed(Duration(seconds: connectionDelay));
 
-      // Simulate occasional connection failures for testing
+      // Simulate occasional connection failures for testing (disabled for production)
+      // Uncomment the lines below if you want to test error handling
+      /*
       if (walletType.toLowerCase() == 'walletconnect' &&
           DateTime.now().millisecond % 3 == 0) {
         throw Exception('WalletConnect connection failed. Please try again.');
       }
+      */
+
+      print('Successfully connected $walletType');
 
       // Clear connecting state for this wallet
       final finalConnectingStates =
@@ -78,11 +98,12 @@ class WalletProvider extends ChangeNotifier {
         walletConnectingStates: finalConnectingStates,
       ));
     } catch (e) {
-      // Set error for this specific wallet
+      print('Connection failed for $walletType: $e');
+
+      // Set error for this specific wallet only
       final updatedWalletErrors =
           Map<String, String?>.from(_state.walletErrors);
-      updatedWalletErrors[walletType] =
-          'Failed to connect $walletType: ${e.toString()}';
+      updatedWalletErrors[walletType] = e.toString();
 
       // Clear connecting state for this wallet
       final finalConnectingStates =
@@ -92,7 +113,7 @@ class WalletProvider extends ChangeNotifier {
       _updateState(_state.copyWith(
         isConnecting: false,
         connectingWalletType: null,
-        error: 'Failed to connect $walletType: ${e.toString()}',
+        error: null, // Don't set global error, use individual wallet errors
         walletConnectingStates: finalConnectingStates,
         walletErrors: updatedWalletErrors,
       ));
@@ -149,6 +170,17 @@ class WalletProvider extends ChangeNotifier {
     final updatedWalletErrors = Map<String, String?>.from(_state.walletErrors);
     updatedWalletErrors[walletType] = null;
     _updateState(_state.copyWith(walletErrors: updatedWalletErrors));
+  }
+
+  void clearAllWalletStates() {
+    _updateState(WalletState());
+  }
+
+  void clearAllWalletErrors() {
+    _updateState(_state.copyWith(
+      error: null,
+      walletErrors: {},
+    ));
   }
 
   void _updateState(WalletState newState) {
