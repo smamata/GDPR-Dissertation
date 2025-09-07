@@ -1,0 +1,113 @@
+{
+  "_format": "hh-sol-cache-2",
+  "files": {
+    "/Users/mamatashrestha/gdpr-chain-prototype/contracts/ConsentBasic.sol": {
+      "lastModificationDate": 1755247272929,
+      "contentHash": "c581fb732629ec43cbd3531769b2a545",
+      "sourceName": "contracts/ConsentBasic.sol",
+      "solcConfig": {
+        "version": "0.8.24",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.24"
+      ],
+      "artifacts": [
+        "ConsentBasic"
+      ]
+    },
+    "/Users/mamatashrestha/gdpr-chain-prototype/contracts/ConsentMinimalEvent.sol": {
+      "lastModificationDate": 1755247292166,
+      "contentHash": "7e8209905be0eaf1682a68fbcc9c32a5",
+      "sourceName": "contracts/ConsentMinimalEvent.sol",
+      "solcConfig": {
+        "version": "0.8.24",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.24"
+      ],
+      "artifacts": [
+        "ConsentMinimalEvent"
+      ]
+    },
+    "/Users/mamatashrestha/gdpr-chain-prototype/contracts/ConsentOptimized.sol": {
+      "lastModificationDate": 1755247283350,
+      "contentHash": "2993c74a833d26a4865c27c98bbe03d2",
+      "sourceName": "contracts/ConsentOptimized.sol",
+      "solcConfig": {
+        "version": "0.8.24",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.24"
+      ],
+      "artifacts": [
+        "ConsentOptimized"
+      ]
+    }
+  }
+}
