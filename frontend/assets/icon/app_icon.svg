@@ -1,0 +1,21 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle -->
+  <circle cx="512" cy="512" r="512" fill="#2196F3"/>
+  
+  <!-- GDPR Shield Icon -->
+  <g transform="translate(256, 256)">
+    <!-- Shield shape -->
+    <path d="M256 64L64 128v192c0 128 64 256 192 320 128-64 192-192 192-320V128L256 64z" fill="white" stroke="none"/>
+    
+    <!-- Checkmark -->
+    <path d="M192 256l64 64 128-128" stroke="#2196F3" stroke-width="16" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    
+    <!-- Privacy dots -->
+    <circle cx="320" cy="320" r="8" fill="#2196F3"/>
+    <circle cx="352" cy="320" r="8" fill="#2196F3"/>
+    <circle cx="384" cy="320" r="8" fill="#2196F3"/>
+  </g>
+  
+  <!-- App name -->
+  <text x="512" y="800" text-anchor="middle" font-family="Arial, sans-serif" font-size="48" font-weight="bold" fill="white">GDPR</text>
+</svg>
