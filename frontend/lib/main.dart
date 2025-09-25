@@ -11,6 +11,7 @@ import 'screens/new_consent_screen.dart';
 import 'screens/data_access_requests_screen.dart';
 import 'screens/new_data_access_request_screen.dart';
 import 'screens/deletion_requests_screen.dart';
+import 'screens/new_deletion_request_screen.dart';
 import 'screens/delete_confirmation_screen.dart';
 import 'screens/analytics_screen.dart';
 import 'screens/smart_contract_library_screen.dart';
@@ -24,6 +25,8 @@ import 'widgets/app_theme.dart';
 import 'providers/consent_provider.dart';
 import 'providers/wallet_provider.dart';
 import 'providers/data_access_provider.dart';
+import 'providers/deletion_provider.dart';
+import 'providers/analytics_provider.dart';
 import 'providers/onboarding_provider.dart';
 
 Future<void> main() async {
@@ -42,6 +45,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => ConsentProvider()),
         ChangeNotifierProvider(create: (_) => WalletProvider()),
         ChangeNotifierProvider(create: (_) => DataAccessProvider()),
+        ChangeNotifierProvider(create: (_) => DeletionProvider()),
+        ChangeNotifierProvider(create: (_) => AnalyticsProvider()),
         ChangeNotifierProvider(create: (_) => OnboardingProvider()),
       ],
       child: MaterialApp.router(
@@ -109,6 +114,12 @@ final GoRouter _router = GoRouter(
     GoRoute(
       path: '/deletion-requests',
       builder: (context, state) => const DeletionRequestsScreen(),
+    ),
+
+    // S10.1 - New Deletion Request
+    GoRoute(
+      path: '/new-deletion-request',
+      builder: (context, state) => const NewDeletionRequestScreen(),
     ),
 
     // S11 - Delete Confirmation

@@ -199,13 +199,13 @@ class ConsentManagementScreen extends StatelessWidget {
           ),
           actions: [
             TextButton(
-              onPressed: () => Navigator.pop(context),
+              onPressed: () => Navigator.of(context).pop(),
               child:
                   const Text('Cancel', style: TextStyle(color: Colors.white70)),
             ),
             ElevatedButton(
               onPressed: () {
-                Navigator.pop(context);
+                Navigator.of(context).pop();
                 consentProvider.toggleConsent(consent.id, false);
                 _showToast(context, 'Consent revoked for ${consent.category}');
               },
