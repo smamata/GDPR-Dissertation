@@ -1,9 +1,9 @@
 {
   "_format": "hh-sol-cache-2",
   "files": {
-    "/Users/mamatashrestha/gdpr-chain-prototype/contracts/ConsentBasic.sol": {
-      "lastModificationDate": 1755247272929,
-      "contentHash": "c581fb732629ec43cbd3531769b2a545",
+    "/Volumes/My Files/MDX/Dissertation/gdpr-dissertation/contracts/ConsentBasic.sol": {
+      "lastModificationDate": 1757241225150,
+      "contentHash": "d6753d70b4b61ae98bf3e678dcae6425",
       "sourceName": "contracts/ConsentBasic.sol",
       "solcConfig": {
         "version": "0.8.24",
@@ -37,9 +37,9 @@
         "ConsentBasic"
       ]
     },
-    "/Users/mamatashrestha/gdpr-chain-prototype/contracts/ConsentMinimalEvent.sol": {
-      "lastModificationDate": 1755247292166,
-      "contentHash": "7e8209905be0eaf1682a68fbcc9c32a5",
+    "/Volumes/My Files/MDX/Dissertation/gdpr-dissertation/contracts/ConsentMinimalEvent.sol": {
+      "lastModificationDate": 1757241225150,
+      "contentHash": "f71a516cf27cc21ba8446ea0d99cd36c",
       "sourceName": "contracts/ConsentMinimalEvent.sol",
       "solcConfig": {
         "version": "0.8.24",
@@ -73,9 +73,9 @@
         "ConsentMinimalEvent"
       ]
     },
-    "/Users/mamatashrestha/gdpr-chain-prototype/contracts/ConsentOptimized.sol": {
-      "lastModificationDate": 1755247283350,
-      "contentHash": "2993c74a833d26a4865c27c98bbe03d2",
+    "/Volumes/My Files/MDX/Dissertation/gdpr-dissertation/contracts/ConsentOptimized.sol": {
+      "lastModificationDate": 1757241225150,
+      "contentHash": "7136f50ba671049d412bae715c744a62",
       "sourceName": "contracts/ConsentOptimized.sol",
       "solcConfig": {
         "version": "0.8.24",

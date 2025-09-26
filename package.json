@@ -7,13 +7,18 @@
     "clean": "hardhat clean",
     "deploy": "hardhat run scripts/deploy.ts",
     "bench": "hardhat run scripts/benchmark.ts",
-    "bench:all": "node scripts/runAll.js"
+    "bench:all": "node scripts/runAll.js",
+    "test": "hardhat test",
+    "test:basic": "hardhat test test/ConsentBasic.test.ts",
+    "test:optimized": "hardhat test test/ConsentOptimized.test.ts",
+    "test:minimal": "hardhat test test/ConsentMinimalEvent.test.ts",
+    "test:gas": "hardhat test --gas-report",
+    "test:all": "hardhat run test/runAllTests.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
-  "type": "module",
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^6.1.0",
     "@types/node": "^24.2.1",
